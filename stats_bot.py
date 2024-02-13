@@ -11,7 +11,8 @@ channelId = 694254855761428494
 workbook = xlsxwriter.Workbook('server_statistics.xlsx')
 worksheet = workbook.add_worksheet()
 
-interval = monthdelta(1)
+#we can use monthdelta(1) for month intervals here
+interval = datetime.timedelta(days=10)
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -30,7 +31,7 @@ async def on_ready():
 
     print("Starting message logging, this will take a while...")
     while (date <= lastDate):
-        print(date.strftime("%Y-%m"))
+        print(date.strftime("%Y-%m-%d"))
         intervalEnd = date + interval
         user_message_amount = {}
 
@@ -41,7 +42,7 @@ async def on_ready():
             else:
                 user_message_amount[sender] = 1
 
-        worksheet.write(row, 0, date.strftime("%Y-%m"))
+        worksheet.write(row, 0, date.strftime("%Y-%m-%d"))
         for user in user_message_amount:
             print(f'{user} : {user_message_amount[user]}')
 
