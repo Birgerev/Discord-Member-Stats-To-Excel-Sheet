@@ -28,7 +28,9 @@ async def on_ready():
     row = 1
     emptyColumn = 1
     user_columns = {}
+    total_message_amount = 0
 
+    await channel.send('Processing message history...')
     print("Starting message logging, this will take a while...")
     while (date <= lastDate):
         print(date.strftime("%Y-%m-%d"))
@@ -37,6 +39,7 @@ async def on_ready():
 
         async for message in channel.history(limit=50000, after=date, before=(intervalEnd)):
             sender = message.author.name
+            total_message_amount += 1
             if sender in user_message_amount.keys():
                 user_message_amount[sender] += 1
             else:
@@ -61,7 +64,9 @@ async def on_ready():
 
         date += interval
         row += 1
+
     workbook.close()
+    await channel.send(f'Processed {total_message_amount}x messages')
 
 
 
