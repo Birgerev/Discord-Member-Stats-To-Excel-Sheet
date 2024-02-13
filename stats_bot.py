@@ -5,6 +5,7 @@ import datetime
 from monthdelta import monthdelta
 import xlsxwriter
 
+token = ''
 channelId = 694254855761428494
 
 workbook = xlsxwriter.Workbook('server_statistics.xlsx')
@@ -49,7 +50,7 @@ async def on_ready():
                 user_columns[sender] = userColumn
                 column +=1
             worksheet.write(row, userColumn, date.strftime("%Y-%m"))
-        
+
         date += interval
         row += 1
     workbook.close()
