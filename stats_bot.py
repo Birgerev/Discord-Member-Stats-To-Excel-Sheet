@@ -25,31 +25,38 @@ async def on_ready():
     date = channel.created_at
     lastDate = datetime.datetime.now(datetime.timezone.utc)
     row = 1
-    column = 1
+    emptyColumn = 1
     user_columns = {}
 
+    print("Starting message logging, this will take a while...")
     while (date <= lastDate):
         print(date.strftime("%Y-%m"))
         intervalEnd = date + interval
-        user_message_amount = {"jonas" : 5}
+        user_message_amount = {}
 
-        #async for message in channel.history(limit=50000, after=date, before=(intervalEnd)):
-        #    sender = message.author.name
-        #    if sender in user_message_amount.keys():
-        #        user_message_amount[sender] += 1
-        #    else:
-        #        user_message_amount[sender] = 1
+        async for message in channel.history(limit=50000, after=date, before=(intervalEnd)):
+            sender = message.author.name
+            if sender in user_message_amount.keys():
+                user_message_amount[sender] += 1
+            else:
+                user_message_amount[sender] = 1
 
         worksheet.write(row, 0, date.strftime("%Y-%m"))
         for user in user_message_amount:
             print(f'{user} : {user_message_amount[user]}')
-            userColumn = column
-            if sender in user_columns.keys():
-                userColumn = user_columns[sender]
+
+            userColumn = emptyColumn
+            if user in user_columns.keys():
+                #Use user column
+                userColumn = user_columns[user]
             else:
-                user_columns[sender] = userColumn
-                column +=1
-            worksheet.write(row, userColumn, date.strftime("%Y-%m"))
+                #create user column
+                user_columns[user] = userColumn
+                worksheet.write(0, userColumn, user)
+                emptyColumn +=1
+
+            #Fill individual cell with message amount
+            worksheet.write(row, userColumn, user_message_amount[user])
 
         date += interval
         row += 1
