@@ -6,6 +6,7 @@ from monthdelta import monthdelta
 import xlsxwriter
 
 token = ''
+#Find your token here: https://discord.com/developers/applications
 channelId = 694254855761428494
 
 workbook = xlsxwriter.Workbook('server_statistics.xlsx')
