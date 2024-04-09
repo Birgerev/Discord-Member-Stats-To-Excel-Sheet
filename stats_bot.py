@@ -7,6 +7,7 @@ import xlsxwriter
 
 token = ''
 #Find your token here: https://discord.com/developers/applications
+#My invite: https://discord.com/oauth2/authorize?client_id=964142317021827146
 channelId = 694254855761428494
 
 workbook = xlsxwriter.Workbook('server_statistics.xlsx')
